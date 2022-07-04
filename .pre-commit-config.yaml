@@ -1,0 +1,94 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+  - repo: local
+    hooks:
+      - id: check-added-large-files
+        name: Check for added large files
+        entry: check-added-large-files
+        language: system
+      - id: check-yaml
+        name: Check Yaml
+        entry: check-yaml
+        language: system
+        types: [yaml]
+      - id: end-of-file-fixer
+        name: Fix End of Files
+        entry: end-of-file-fixer
+        language: system
+        types: [text]
+        stages: [commit, push, manual]
+      - id: mixed-line-ending
+        name: mixed-line-ending
+        entry: mixed-line-ending
+        language: system
+        types: [text]
+        args: ["--fix=no"]
+      - id: trailing-whitespace
+        name: Trim Trailing Whitespace
+        entry: trailing-whitespace-fixer
+        language: system
+        types: [text]
+        stages: [commit, push, manual]
+      - id: nbqa-black
+        name: nbqa-black
+        description: "Run 'black' on a Jupyter Notebook"
+        entry: nbqa black
+        language: python
+        require_serial: true
+        types: [jupyter]
+        additional_dependencies: [black]
+      - id: nbqa-check-ast
+        name: nbqa-check-ast
+        description: "Run 'check-ast' on a Jupyter Notebook"
+        entry: nbqa pre_commit_hooks.check_ast
+        language: python
+        require_serial: true
+        types: [jupyter]
+        additional_dependencies: [pre-commit-hooks]
+        args: [--nbqa-dont-skip-bad-cells]
+      - id: nbqa-flake8
+        name: nbqa-flake8
+        description: "Run 'flake8' on a Jupyter Notebook"
+        entry: nbqa flake8
+        language: python
+        require_serial: true
+        types: [jupyter]
+        additional_dependencies: [flake8]
+      - id: nbqa-isort
+        name: nbqa-isort
+        description: "Run 'isort' on a Jupyter Notebook"
+        entry: nbqa isort
+        language: python
+        require_serial: true
+        types: [jupyter]
+        additional_dependencies: [isort]
+      - id: nbqa-pyupgrade
+        name: nbqa-pyupgrade
+        description: "Run 'pyupgrade' on a Jupyter Notebook"
+        entry: nbqa pyupgrade
+        language: python
+        require_serial: true
+        types: [jupyter]
+        additional_dependencies: [pyupgrade]
+      - id: nbqa-yapf
+        name: nbqa-yapf
+        description: "Run 'yapf' on a Jupyter Notebook"
+        entry: nbqa yapf --in-place
+        language: python
+        require_serial: true
+        types: [jupyter]
+        additional_dependencies: [yapf]
+      - id: nbqa-autopep8
+        name: nbqa-autopep8
+        description: "Run 'autopep8' on a Jupyter Notebook"
+        entry: nbqa autopep8 -i
+        language: python
+        require_serial: true
+        types: [jupyter]
+        additional_dependencies: [autopep8]
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.2.0
+    hooks:
+      - id: check-added-large-files
+        files: ".*\\.(?:tex|py)$"
